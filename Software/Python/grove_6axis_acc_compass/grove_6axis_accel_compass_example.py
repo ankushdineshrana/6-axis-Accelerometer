@@ -33,13 +33,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
 import lsm303d
-
+import time
 try:
 	acc_mag=lsm303d.lsm303d()
 
 	while True:
 		
 		# Get accelerometer values
+		#time.sleep(0.1)
 		acc=acc_mag.getRealAccel()
 		
 		# Wait for compass to get ready
@@ -52,7 +53,23 @@ try:
 		
 		print("Acceleration of X,Y,Z is %.3fg, %.3fg, %.3fg" %(acc[0],acc[1],acc[2]))
 		print("Heading %.3f degrees\n" %(heading))
-
+		if acc[0]>0.6:
+			print("impact at +X axis")
+			break
+		if acc[0]<-0.6:
+			print("impact at -X axis")
+			break
+		if acc[1]>0.6:
+			print("impact at +Y axis")
+			break
+		if acc[1]<-0.6:
+			print("impact at -Y axis")
+			break
+		if acc[2]>0.6:
+			print("impact at +Z axis")
+		if acc[2]<-0.6:
+			print("impact at -Z axis")
+		
 except IOError:
 	print("Unable to read from accelerometer, check the sensor and try again")
 	
